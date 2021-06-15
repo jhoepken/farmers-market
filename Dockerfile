@@ -1,11 +1,17 @@
 FROM python:3.9
 RUN mkdir -p /opt/app
-RUN mkdir -p /opt/app/farmersMarket
-COPY requirements.txt /opt/app
-COPY farmersMarket /opt/app/farmersMarket
+
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
+
 WORKDIR /opt/app
+
+COPY requirements.txt .
+COPY farmersMarket .
+
+RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
+
 EXPOSE 8000
-WORKDIR /opt/app/farmersMarket
 ENTRYPOINT ["/usr/bin/python3"]
 CMD ["manage.py runserver"]
